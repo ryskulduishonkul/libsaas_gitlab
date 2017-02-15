@@ -7,6 +7,7 @@ from . import issues
 from . import branches
 from . import commits
 from . import keys
+from . import deploy_keys
 
 class ProjectsBase(resource.GitlabResource):
     path = 'projects'
@@ -231,3 +232,11 @@ class Project(ProjectsBase):
         Get service resource
         """
         return resource.ServicesBase(self, name)
+
+    @base.resource(deploy_keys.DeployKey)
+    def deploy_key(self, key_id):
+        return deploy_keys.DeployKey(self, key_id)
+
+    @base.resource(deploy_keys.DeployKeys)
+    def deploy_keys(self):
+        return deploy_keys.DeployKeys(self)

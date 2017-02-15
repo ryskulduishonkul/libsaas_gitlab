@@ -655,4 +655,38 @@ class GitlabTestCase(unittest.TestCase):
             self.assertRaises(self.service.hook(3).update(data))
         with port.assertRaises(MethodNotSupported):
             self.assertRaises(self.service.hook(3).create(data))
-        
+
+    def test_deploy_keys(self):
+        self.service.deploy_keys().get()
+        self.expect('GET', '/deploy_keys')
+
+        self.service.project(1).deploy_keys().get()
+        self.expect('GET', '/projects/1/deploy_keys')
+
+        data = {'title': 'my create deploy key', 'key': 'ssh-rsa AAAA...'}
+        self.service.project(1).deploy_keys().create(data)
+        self.expect('POST', '/projects/1/deploy_keys', data)
+
+        with port.assertRaises(MethodNotSupported):
+            self.service.project(1).deploy_keys().update({})
+
+        with port.assertRaises(MethodNotSupported):
+            self.service.project(1).deploy_keys().delete()
+
+        self.service.project(1).deploy_key(1).get()
+        self.expect('GET', '/projects/1/deploy_keys/1')
+
+        self.service.project(1).deploy_key(1).delete()
+        self.expect('DELETE', '/projects/1/deploy_keys/1')
+
+        self.service.project(1).deploy_key(1).enable()
+        self.expect('POST', '/projects/1/deploy_keys/1/enable')
+
+        self.service.project(1).deploy_key(1).disable()
+        self.expect('DELETE', '/projects/1/deploy_keys/1/disable')
+
+        with port.assertRaises(MethodNotSupported):
+            self.service.project(1).deploy_key(1).create({})
+
+        with port.assertRaises(MethodNotSupported):
+            self.service.project(1).deploy_key(1).update({})

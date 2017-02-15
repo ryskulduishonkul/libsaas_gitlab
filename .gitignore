@@ -58,3 +58,12 @@ server.yml
 
 *sublime-project
 *sublime-workspace
+
+# local test files
+test/local_test.py
+
+# virtualenv
+.venv
+
+# pycharm ide
+.idea

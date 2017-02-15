@@ -9,6 +9,7 @@ from . import projects
 from . import users
 from . import issues
 from . import groups
+from . import deploy_keys
 
 class Gitlab(base.Resource):
     """
@@ -125,5 +126,9 @@ class Gitlab(base.Resource):
         Return the resource corresponding to all hooks
         """
         return resource.Hooks(self)
+
+    @base.resource(deploy_keys.DeployKeys)
+    def deploy_keys(self):
+        return deploy_keys.DeployKeys(self)
 
 Gitlab = Gitlab
