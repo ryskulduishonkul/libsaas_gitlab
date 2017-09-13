@@ -12,6 +12,9 @@ class MergeRequests(MergeRequestsBase):
 class MergeRequestComments(MergeRequests):
     path = 'comments'
 
+class MergeRequestVersions(MergeRequests):
+    path = 'versions'
+
 class MergeRequest(MergeRequests):
     
     path = 'merge_request'
@@ -55,4 +58,7 @@ class MergeRequest(MergeRequests):
         """
         return MergeRequestComments(self)            
 
-
+    @base.resource(MergeRequestVersions)
+    def versions(self):
+        self.path = 'merge_requests'
+        return MergeRequestVersions(self)
